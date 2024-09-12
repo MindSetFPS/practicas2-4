@@ -1,7 +1,7 @@
 package com.example.app;
 
 public class MCD {
-    public int calculate(int a, int b){
+    public static int calculate(int a, int b){
         if (b == 0) {
             return a; // Base case: GCD(a, 0) is a
         }

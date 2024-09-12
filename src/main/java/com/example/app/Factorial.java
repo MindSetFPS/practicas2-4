@@ -12,6 +12,4 @@ public class Factorial extends Operation {
             return n * calculate(n - 1);
         }
     }
-    
-
 }

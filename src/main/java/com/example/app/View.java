@@ -1,11 +1,7 @@
 package com.example.app;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class View {
     public static JPanel mainPanel;
@@ -25,8 +21,38 @@ public class View {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+    
+    public static void createTwoInputView(MCD operation){
+         // Create subpanel to add content
+        JPanel subPanel = new JPanel(new GridLayout(0, 1, 10, 10));
 
-    public static void createView(Operation operation) {
+        // Get class name and assign to label
+        JLabel columnLabel = new JLabel(operation.getClass().getSimpleName());
+        JLabel answer = new JLabel("Respuesta: ");
+        
+        // Create inputs
+        JTextField firstInput = new JTextField(16);
+        JTextField secondInput = new JTextField(16);
+        
+        // Validate numbers
+        firstInput.addKeyListener(new NumberValidator(firstInput));
+        secondInput.addKeyListener(new NumberValidator(secondInput));
+
+        // Create button and event listener
+        JButton button = new JButton("Calcular");
+        button.addActionListener(new TwoInputListener(firstInput, secondInput, answer));
+
+        addToSubpanel(subPanel, columnLabel, firstInput, secondInput, button, answer);
+        mainPanel.add(subPanel);       
+    }
+    
+    public static void addToSubpanel(JPanel subPanel, JComponent... components){
+        for (JComponent component : components){
+            subPanel.add(component);
+        }
+    }
+
+    public static void createSingleInputView(Operation operation) {
         // Create subpanel to add content
         JPanel subPanel = new JPanel(new GridLayout(0, 1, 10, 10));
 
@@ -36,40 +62,15 @@ public class View {
         
         // Create inputs
         JTextField inputField = new JTextField(16);
-        inputField.addKeyListener(new KeyAdapter(){
-            @Override
-            public void keyPressed(KeyEvent event){
-                 if (event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                     // Handle backspace key press
-                     inputField.setEditable(true);
-                     System.out.println("Backspace key pressed.");
-                 } else {
-                     
-                     String allowedCharacters = "1234567890";
-                     
-                     if(allowedCharacters.indexOf(event.getKeyChar()) != -1){
-                         System.out.println("Is a number");
-                         inputField.setEditable(true);
-                     } else {
-                         inputField.setEditable(false);
-                     }
-                 }
-            } 
-         });
-
         
-        JButton button = new JButton("Calcular");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                answer.setText("Respuesta: " + operation.calculate(Integer.parseInt(inputField.getText())));
-            }
-        });
+        // Validate numbers
+        inputField.addKeyListener(new NumberValidator(inputField));
 
-        subPanel.add(columnLabel);
-        subPanel.add(inputField);
-        subPanel.add(button);
-        subPanel.add(answer);
+        // Create button and event listener
+        JButton button = new JButton("Calcular");
+        button.addActionListener(new SingleInputListener(operation, inputField, answer));
+
+        addToSubpanel(subPanel, columnLabel, inputField, button, answer);
         mainPanel.add(subPanel);
     }
 }

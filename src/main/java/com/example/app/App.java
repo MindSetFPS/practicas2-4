@@ -11,9 +11,9 @@ public class App
         View.RenderUi();
         Factorial factorial = new Factorial();
         Fibonacci fibonacci = new Fibonacci();
+        MCD mcd = new MCD();
         View.createSingleInputView(factorial);
         View.createSingleInputView(fibonacci);
-        // View.createView(factorial);
-        // .calculate(5);
+        View.createTwoInputView(mcd);
     }
 }

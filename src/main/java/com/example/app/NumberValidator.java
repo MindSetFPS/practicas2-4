@@ -2,7 +2,6 @@ package com.example.app;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JTextField;
 
 public class NumberValidator extends KeyAdapter{
@@ -25,6 +24,4 @@ public class NumberValidator extends KeyAdapter{
             }
         }
     }
-
-    
 }
